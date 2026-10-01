@@ -365,6 +365,11 @@ def range2parts(outputs, **inputs):
 class Range(Operand):
     _re = _re_range
 
+    def ast(self, tokens, stack, builder):
+        if self.source.startswith(':') and tokens and tokens[-1].has_end:
+            raise TokenError()
+        super(Range, self).ast(tokens, stack, builder)
+
     def process(self, match, context=None, parser=None):
         d = super(Range, self).process(match)
         if len(d) <= 1 and 'indirect' not in d and 'ref' in d:

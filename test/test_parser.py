@@ -15,6 +15,7 @@ from formulas.parser import Parser
 from formulas.errors import FormulaError
 from formulas.ranges import Ranges
 from formulas.functions import wrap_ranges_func
+from formulas.tokens.operator import OperatorToken
 
 
 @ddt.ddt
@@ -27,6 +28,8 @@ class TestParser(unittest.TestCase):
         ('=5%', '5%'),
         ('=2:3', '2:3'),
         ('=A:B', 'A:B'),
+        ('=:D1', ':D1'),
+        ('=SUM(:D1)', 'SUM(:D1)'),
         ('=[0]S.H.E.E.t!_r_e_f_1__', '_R_E_F_1__'),
         ('=[0]!_r_e_f_1__', '_R_E_F_1__'),
         ('=L4:N15 : J5:L12', 'L4:N15:J5:L12'),
@@ -72,6 +75,15 @@ class TestParser(unittest.TestCase):
         tokens, ast = Parser().ast(inputs)
         output = ''.join(t.name for t in tokens)
         self.assertEqual(result, output, '%s != %s' % (result, output))
+
+    @ddt.data('=SUM(INDEX(A1:E1,,2):D1)', '=SUM((B1):D1)')
+    def test_range_after_parenthesis(self, formula):
+        tokens, ast = Parser().ast(formula)
+        self.assertEqual(1, sum(
+            isinstance(t, OperatorToken) and t.name == ':' for t in tokens
+        ))
+        self.assertNotIn(':D1', ast.dsp.data_nodes)
+        self.assertEqual(1, len(ast.dsp.function_nodes['SUM']['inputs']))
 
     @ddt.data(
         '=-', '={}', '=1  -*  4', '={1;2,2}', '= a + IF((a, b, c)',

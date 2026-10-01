@@ -303,6 +303,26 @@ class TestExcelModel(unittest.TestCase):
             })
         )
 
+    def test_excel_index_range(self):
+        xl_model = ExcelModel().from_dict({
+            'A1': 1, 'B1': 2, 'C1': 3, 'D1': 4, 'E1': 5,
+            'G1': '=SUM(INDEX(A1:E1,,2):D1)',
+            'G2': '=SUM(B1:D1)',
+            'G3': '=SUM(INDEX(A1:E1,,4):B1)',
+            'G4': '=SUM(100,INDEX(A1:E1,,2):D1)'
+        })
+        outputs = ('G1', 'G2', 'G3', 'G4')
+        result = xl_model.calculate()
+        self.assertEqual([9, 9, 9, 109], [
+            result[k].value.item() for k in outputs
+        ])
+        result = xl_model.calculate({
+            'A1': 10, 'B1': 20, 'C1': 30, 'D1': 40, 'E1': 50
+        })
+        self.assertEqual([90, 90, 90, 190], [
+            result[k].value.item() for k in outputs
+        ])
+
     def test_excel_from_dict(self):
         xl_model = ExcelModel().from_dict({
             'A1': 1, 'B2': '=R[-1]C[-1]', 'A': 2, 'B': '=2', 'C': '=A1'

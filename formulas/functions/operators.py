@@ -12,7 +12,9 @@ Python equivalents of Excel operators.
 import schedula as sh
 import functools
 import collections
-from . import replace_empty, not_implemented, wrap_func, wrap_ufunc, Error
+from . import (
+    replace_empty, not_implemented, wrap_func, wrap_ufunc, Error, raise_errors
+)
 from .text import _str
 from .look import _get_type_id, FUNCTIONS
 
@@ -65,10 +67,17 @@ OPERATORS['&'] = wrap_ufunc(
     lambda x, y: x + y, input_parser=lambda *a: map(_str, a),
     args_parser=lambda *a: (replace_empty(v, '') for v in a)
 )
+
+
+def _range_add(x, y):
+    raise_errors(x, y)
+    return x + y
+
+
 OPERATORS.update({k: wrap_func(v, ranges=True) for k, v in {
     ',': lambda x, y: x | y,
     ' ': lambda x, y: x & y,
-    ':': lambda x, y: x + y
+    ':': _range_add
 }.items()})
 
 OPERATORS['@'] = FUNCTIONS['SINGLE']
