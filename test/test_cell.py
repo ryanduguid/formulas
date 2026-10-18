@@ -1452,6 +1452,9 @@ class TestCell(unittest.TestCase):
          {}, '<Ranges>(A1)=[[#VALUE!]]'),
         ('A1', '=XIRR({-10,1,1,2,3},{3,6,7,4,9})',
          {}, '<Ranges>(A1)=[[#NUM!]]'),
+        ('A1', '=IRR({4,5,0},TRUE)', {}, '<Ranges>(A1)=[[#NUM!]]'),
+        ('A1', '=IRR({-4,-5,0})', {}, '<Ranges>(A1)=[[#NUM!]]'),
+        ('A1', '=IRR({4,-5,0})', {}, '<Ranges>(A1)=[[0.25]]'),
         ('A1', '=IRR({2,0,4},A2)',
          {'A2': [[sh.EMPTY]]}, '<Ranges>(A1)=[[#NUM!]]'),
         ('A1', '=IRR({7,2,-1,4,-3;7,2,-1,4,4},A2)',
@@ -1947,6 +1950,8 @@ class TestCell(unittest.TestCase):
          '<Ranges>\(A1\)=\[\[-9\.578594039813\d*\]\]'),
         ('A1', '=IPMT(0.1/12, "01/01/1900", 3*12, 8000)', {},
          '<Ranges>\(A1\)=\[\[-66\.66666666666\d*\]\]'),
+        ('A1', '=PPMT(TRUE,"3","33","10000","1")', {},
+         r'<Ranges>\(A1\)=\[\[-4\.657078\d*e-06\]\]'),
         ('A1', '=PPMT(0.1/12, 1, 2*12, 2000)', {},
          '<Ranges>\(A1\)=\[\[-75\.62318600836\d*\]\]'),
         ('A1', '=PMT("33","3","33","10000","1")', {},
@@ -1968,6 +1973,21 @@ class TestCell(unittest.TestCase):
             output, regex,
             'Formula({}): {} != {}'.format(formula, regex, output)
         )
+
+    @ddt.idata([
+        ('CUMIPMT', 0, -5095.238095238095),
+        ('CUMIPMT', 1, -2047.6190476190477),
+        ('CUMPRINC', 0, -1000.0),
+        ('CUMPRINC', 1, -1000.0),
+    ])
+    def test_cumulative_integer_rate(self, case):
+        function, payment_type, expected = case
+        dsp = sh.Dispatcher()
+        formula = '={}(1,6,1000,1,6,{})'.format(function, payment_type)
+        cell = Cell('A1', formula).compile()
+        self.assertTrue(cell.add(dsp))
+        output = dsp({})[cell.output]
+        self.assertAlmostEqual(output.value.item(), expected, places=8)
 
     @ddt.idata([
         ('A1:D1', '=IF({0,-0.2,0},{2,3},{1})', {}),  # BroadcastError

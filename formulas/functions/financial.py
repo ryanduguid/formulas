@@ -1349,7 +1349,7 @@ def xcumipmt(rate, nper, pv, start_period, end_period, type, *,
             or nper < start_period or end_period > nper:
         return Error.errors['#NUM!']
     per = list(range(int(start_period), int(end_period + 1)))
-    res = func(rate, per, nper, pv, fv=0, when=type)
+    res = func(float(rate), per, nper, pv, fv=0, when=type)
     return res[res < 0].sum()
 
 
@@ -1369,7 +1369,7 @@ def xppmt(rate, per, nper, pv, fv=0, type=0):
     import numpy_financial as npf
     if per < 1 or per >= nper + 1:
         return Error.errors['#NUM!']
-    return npf.ppmt(rate, per, nper, pv, fv=fv, when=type)
+    return npf.ppmt(float(rate), per, nper, pv, fv=fv, when=type)
 
 
 FUNCTIONS['PPMT'] = wrap_ufunc(xppmt, **_kw)
@@ -1400,8 +1400,12 @@ FUNCTIONS['NPER'] = wrap_ufunc(xnper, **_kw)
 def xirr(values, guess=0.1):
     with np.errstate(divide='ignore', invalid='ignore'):
         import numpy_financial as npf
-        res = npf.irr(tuple(flatten(text2num(replace_empty(values)).ravel())))
-        res = (not np.isfinite(res)) and Error.errors['#NUM!'] or res
+        values = tuple(flatten(text2num(replace_empty(values)).ravel()))
+        if not (any(v < 0 for v in values) and any(v > 0 for v in values)):
+            res = Error.errors['#NUM!']
+        else:
+            res = npf.irr(values)
+            res = (not np.isfinite(res)) and Error.errors['#NUM!'] or res
 
         def _(g):
             e = isinstance(g, str) and Error.errors['#VALUE!']
