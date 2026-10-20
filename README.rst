@@ -504,31 +504,31 @@ Supported by
 
 .. _end-sponsors:
 .. _start-badges:
-.. |test_status| image:: https://github.com/vinci1it2000/formulas/actions/workflows/tests.yml/badge.svg?branch=master
+.. |test_status| image:: https://img.shields.io/github/actions/workflow/status/vinci1it2000/formulas/tests.yml?branch=master&label=test%20cases&style=flat&labelColor=000000
     :alt: Build status
     :target: https://github.com/vinci1it2000/formulas/actions/workflows/tests.yml?query=branch%3Amaster
 
-.. |cover_status| image:: https://coveralls.io/repos/github/vinci1it2000/formulas/badge.svg?branch=master
+.. |cover_status| image:: https://img.shields.io/coverallsCoverage/github/vinci1it2000/formulas?branch=master&style=flat&labelColor=000000
     :target: https://coveralls.io/github/vinci1it2000/formulas?branch=master
     :alt: Code coverage
 
-.. |docs_status| image:: https://readthedocs.org/projects/formulas/badge/?version=stable
+.. |docs_status| image:: https://img.shields.io/readthedocs/formulas/stable?style=flat&labelColor=000000
     :alt: Documentation status
     :target: https://formulas.readthedocs.io/en/stable/?badge=stable
 
-.. |pypi_ver| image::  https://img.shields.io/pypi/v/formulas.svg?
+.. |pypi_ver| image::  https://img.shields.io/pypi/v/formulas.svg?&style=flat&labelColor=000000&color=66023C
     :target: https://pypi.python.org/pypi/formulas/
     :alt: Latest Version in PyPI
 
-.. |python_ver| image:: https://img.shields.io/pypi/pyversions/formulas.svg?
+.. |python_ver| image:: https://img.shields.io/pypi/pyversions/formulas.svg?&style=flat&labelColor=000000&color=66023C
     :target: https://pypi.python.org/pypi/formulas/
     :alt: Supported Python versions
 
-.. |github_issues| image:: https://img.shields.io/github/issues/vinci1it2000/formulas.svg?
+.. |github_issues| image:: https://img.shields.io/github/issues/vinci1it2000/formulas.svg?&style=flat&labelColor=000000&color=66023C
     :target: https://github.com/vinci1it2000/formulas/issues
     :alt: Issues count
 
-.. |proj_license| image:: https://img.shields.io/badge/license-EUPL%201.1%2B-blue.svg?
+.. |proj_license| image:: https://img.shields.io/badge/license-EUPL%201.1%2B-blue.svg?&style=flat&labelColor=000000&color=66023C
     :target: https://raw.githubusercontent.com/vinci1it2000/formulas/master/LICENSE.txt
     :alt: Project License
 
@@ -536,11 +536,11 @@ Supported by
     :target: https://mybinder.org/v2/gh/vinci1it2000/formulas/master?urlpath=lab%2Ftree%2Fbinder%2Findex.ipynb
     :alt: Live Demo
 
-.. |downloads| image:: https://static.pepy.tech/badge/formulas
+.. |downloads| image:: https://img.shields.io/badge/dynamic/xml?url=https%3A%2F%2Fstatic.pepy.tech%2Fbadge%2Fformulas&query=normalize-space%28%28%2F%2F%2A%5Blocal-name%28%29%3D%27text%27%5D%29%5Blast%28%29%5D%29&label=downloads&style=flat&labelColor=000000&color=66023C
     :target: https://pepy.tech/project/formulas
     :alt: Total Downloads
 
-.. |month_downloads| image:: https://static.pepy.tech/badge/formulas/month
+.. |month_downloads| image:: https://img.shields.io/badge/dynamic/xml?url=https%3A%2F%2Fstatic.pepy.tech%2Fbadge%2Fformulas%2Fmonth&query=normalize-space%28%28%2F%2F%2A%5Blocal-name%28%29%3D%27text%27%5D%29%5Blast%28%29%5D%29&label=downloads%2Fmonth&style=flat&labelColor=000000&color=66023C
     :target: https://pepy.tech/project/formulas
     :alt: Downloads per Month
 .. _end-badges:
