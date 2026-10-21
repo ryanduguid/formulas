@@ -532,7 +532,7 @@ Supported by
     :target: https://raw.githubusercontent.com/vinci1it2000/formulas/master/LICENSE.txt
     :alt: Project License
 
-.. |binder| image:: https://mybinder.org/badge_logo.svg
+.. |binder| image:: https://img.shields.io/badge/launch-binder-66023C?style=flat&labelColor=000000&color=66023C
     :target: https://mybinder.org/v2/gh/vinci1it2000/formulas/master?urlpath=lab%2Ftree%2Fbinder%2Findex.ipynb
     :alt: Live Demo
 
